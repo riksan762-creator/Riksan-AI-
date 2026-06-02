@@ -19,65 +19,108 @@
 
 ---
 
-## 🛠️ 2. Arsitektur Kode Backend (`api/chat.js`)
+## 🚀 2. Panduan Lengkap Menjalankan & Deploy Proyek
 
-Berikut adalah struktur kode inti untuk menangani perutean multi-API (OpenAI, Anthropic, DeepSeek, Qwen) menggunakan protokol *Server-Sent Events (SSE)*:
+Ikuti instruksi langkah-demi-langkah di bawah ini untuk menyiapkan lingkungan lokal, menguji kode, mengunggah ke GitHub, hingga melakukan publikasi otomatis (*live deployment*) di Vercel.
 
-```javascript
-export default async function handler(req, res) {
-    if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
+### 📁 Langkah 2.1: Konfigurasi Struktur Folder Proyek
+Sebelum menjalankan perintah apa pun, pastikan seluruh berkas kodingan kamu berada di struktur direktori yang benar:
+```text
+riksan-ai/
+├── api/
+│   └── chat.js          # File backend Node.js (Vercel Serverless)
+├── css/
+│   └── style.css        # Desain Interface Premium Glassmorphism
+├── js/
+│   └── script.js        # File logika penanganan stream di sisi client
+├── index.html           # File HTML utama aplikasi
+└── README.md            # Dokumentasi ini
+```
 
-    const { messages, engineType } = req.body; 
-    const API_KEY = process.env.HIDEPULSA_API_KEY;
+### 💻 Langkah 2.2: Menjalankan Proyek Secara Lokal (Local Development)
+Untuk menguji performa *streaming* chat di komputer lokal sebelum di-upload ke internet, gunakan **Vercel CLI** untuk membuat local server peniru (*emulation*):
 
-    res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache, no-transform');
-    res.setHeader('Connection', 'keep-alive');
+1. Buka terminal/command prompt di dalam folder proyek `riksan-ai/`.
+2. Install Vercel CLI secara global (jika belum punya):
+```bash
+   npm install -g vercel
+   ```
+3. Jalankan perintah *development server* lokal:
+```bash
+   vercel dev
+   ```
+4. Terminal akan memproses fungsi API lokal dan memberikan alamat akses. Buka browser kamu dan akses:
+```text
+   http://localhost:3000
+   ```
 
-    let TARGET_URL = "";
-    let fetchPayload = {};
+---
 
-    if (engineType === 'anthropic') {
-        TARGET_URL = "[https://ai.hidepulsa.com/v1/messages](https://ai.hidepulsa.com/v1/messages)"; 
-        fetchPayload = {
-            model: "kr/claude-sonnet-4.5", 
-            max_tokens: 4096,
-            messages: messages, 
-            stream: true
-        };
-    } else {
-        TARGET_URL = "[https://ai.hidepulsa.com/v1/chat/completions](https://ai.hidepulsa.com/v1/chat/completions)";
-        fetchPayload = {
-            model: engineType === 'qwen' ? "kr/qwen3-coder-next" : "kr/deepseek-3.2",
-            messages: messages,
-            stream: true,
-            search: true 
-        };
-    }
+### 🐙 Langkah 2.3: Mengunggah Proyek ke GitHub
+Gunakan rentetan perintah Git berikut untuk mengunci kode lokal dan mengirimkannya ke repositori cloud GitHub kamu:
 
-    try {
-        const response = await fetch(TARGET_URL, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${API_KEY}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(fetchPayload)
-        });
+```bash
+# 1. Inisialisasi folder lokal menjadi repositori Git aktif
+git init
 
-        if (!response.ok) {
-            res.write(`data: ${JSON.stringify({ error: "Upstream server overload." })}\n\n`);
-            return res.end();
-        }
+# 2. Daftarkan seluruh file dan folder ke dalam staging area Git
+git add .
 
-        const reader = response.body;
-        for await (const chunk of reader) {
-            res.write(chunk); 
-        }
-        res.end();
+# 3. Kunci perubahan kode di dalam database lokal dengan memberikan pesan deskriptif
+git commit -m "feat: implement premium multi-engine architecture with anti-jump layout"
 
-    } catch (err) {
-        res.write(`data: ${JSON.stringify({ error: "Gateway connection lost." })}\n\n`);
-        res.end();
-    }
-}
+# 4. Ubah nama branch utama lokal menjadi 'main' (standar global modern)
+git branch -M main
+
+# 5. Pasang alamat remote target (Hubungkan folder lokal ke link repositori GitHub kamu)
+# Note: Ganti URL di bawah dengan tautan repositori kosong yang kamu buat di akun GitHub-mu
+git remote add origin [https://github.com/username/riksan-ai.git](https://github.com/username/riksan-ai.git)
+
+# 6. Push atau unggah seluruh source code dari komputer lokal langsung ke GitHub
+git push -u origin main
+```
+
+---
+
+### ☁️ Langkah 2.4: Deploy Otomatis ke Cloud Vercel Production
+
+Kamu bisa memilih salah satu dari dua metode deployment profesional di bawah ini:
+
+#### 🔹 Metode A: Deploy Via Web Dashboard Vercel (Rekomendasi Utama)
+1. Buka browser dan login ke akun [Vercel Dashboard](https://vercel.com/dashboard).
+2. Klik tombol **"Add New..."** di pojok kanan atas, lalu pilih opsi **"Project"**.
+3. Cari nama repositori GitHub kamu (`riksan-ai`) pada daftar yang tersedia, lalu klik tombol **"Import"**.
+4. Di bagian **Environment Variables**, klik untuk membuka dropdown panel. Langkah ini sangat krusial agar backend kamu bisa terhubung ke API Key rahasia:
+   * **Key:** `HIDEPULSA_API_KEY`
+   * **Value:** `sk-kr-zyGrey5gaxvJxV4GBFWJmRfTcN3GTgFj`
+   * Klik tombol **"Add"** setelah mengisi data.
+5. Klik tombol **"Deploy"**.
+6. Tunggu proses kompilasi selama beberapa detik. Selesai! Proyek kamu sekarang online dengan URL berdomain `.vercel.app`. Setiap kali kamu melakukan `git push` di masa depan, Vercel akan memperbarui web kamu secara otomatis.
+
+#### 🔹 Metode B: Deploy Langsung Menggunakan Vercel CLI (Via Terminal)
+Jika kamu lebih suka melakukan publikasi cepat langsung dari baris perintah terminal editor kodinganmu:
+
+```bash
+# 1. Masuk/Login ke akun Vercel kamu lewat terminal
+vercel login
+
+# 2. Jalankan perintah inisialisasi proyek (Ikuti dan setujui semua opsi default di layar)
+vercel
+
+# 3. Daftarkan API Key rahasia kamu langsung ke server cloud Vercel
+vercel env add HIDEPULSA_API_KEY sk-kr-zyGrey5gaxvJxV4GBFWJmRfTcN3GTgFj
+
+# 4. Lakukan trigger kompilasi final untuk merilis URL produksi live komersial
+vercel --prod
+```
+
+---
+
+## 🔒 3. Fault Tolerance & Proteksi Sistem
+Sistem ini dibekali dengan modul *Error Shielding*. Ketika server proxy melempar kode error `502 Bad Gateway`, sistem backend tidak akan mati total melainkan langsung mengisolasi paket data berbahaya, menghentikan koneksi secara aman, dan mengirimkan pesan peringatan yang rapi ke user interface.
+
+---
+
+<p align="center">
+  <b>Riksan AI Core Engineering Docs</b> • Dikelola penuh oleh <b>Riksan (CTO)</b>
+</p>
