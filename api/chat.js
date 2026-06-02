@@ -1,21 +1,50 @@
-export default async function handler(req, res) {
+export const config = {
+    runtime: 'edge',
+};
+
+export default async function handler(req) {
     if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method Not Allowed.' });
+        return new Response(JSON.stringify({ error: 'Method Not Allowed.' }), { status: 405 });
     }
 
     const apiKey = process.env.HIDEPULSA_API_KEY;
     if (!apiKey) {
-        return res.status(500).json({ error: 'Backend Configuration Error: API Key missing.' });
+        return new Response(JSON.stringify({ error: 'Backend Configuration Error: API Key missing.' }), { status: 500 });
     }
 
     try {
-        const { messages } = req.body;
+        const { messages } = await req.json();
 
         if (!messages || !Array.isArray(messages)) {
-            return res.status(400).json({ error: 'Invalid Input.' });
+            return new Response(JSON.stringify({ error: 'Invalid Input.' }), { status: 400 });
         }
 
-        // Tembak ke HidePulsa menggunakan model Qwen Coder yang direkomendasikan aktif
+        // 🌟 TRIK UTAMA: Gabungkan seluruh history menjadi 1 string pesan USER tunggal
+        // Ini dilakukan agar mem bypass bug parser di proxy backend HidePulsa
+        let flattenedHistory = "";
+        
+        messages.forEach(msg => {
+            if (msg.role === 'system') {
+                flattenedHistory += `[System Instruction: ${msg.content}]\n`;
+            } else if (msg.role === 'user') {
+                flattenedHistory += `User: ${msg.content}\n`;
+            } else if (msg.role === 'assistant') {
+                flattenedHistory += `AI: ${msg.content}\n`;
+            }
+        });
+
+        // Tambahkan perintah penutup agar AI merespon dengan format yang benar
+        flattenedHistory += "\nLanjutkan percakapan di atas sebagai AI. Berikan respon langsung tanpa menuliskan ulang label 'AI:' di awal jawaban kamu.";
+
+        // Bungkus menjadi struktur tunggal yang disukai proxy HidePulsa
+        const sanitizedPayload = [
+            {
+                role: 'user',
+                content: flattenedHistory
+            }
+        ];
+
+        // Jalankan fetch stream ke upstream
         const apiResponse = await fetch('https://ai.hidepulsa.com/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -23,24 +52,27 @@ export default async function handler(req, res) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: 'kr/qwen3-coder-next', // 🌟 MODEL DIGANTI KE QWEN CODER YANG SEDANG AKTIF
-                messages: messages,
-                temperature: 0.7
+                model: 'kr/qwen3-coder-next',
+                messages: sanitizedPayload, // Kirim payload yang sudah disterilkan
+                temperature: 0.7,
+                stream: true
             })
         });
 
         if (!apiResponse.ok) {
             const errorRaw = await apiResponse.text();
-            return res.status(apiResponse.status).json({ 
-                error: `Upstream error (${apiResponse.status}): ${errorRaw}` 
-            });
+            return new Response(JSON.stringify({ error: `Upstream error: ${errorRaw}` }), { status: apiResponse.status });
         }
 
-        const payloadData = await apiResponse.json();
-        return res.status(200).json(payloadData);
+        return new Response(apiResponse.body, {
+            headers: {
+                'Content-Type': 'text/event-stream',
+                'Cache-Control': 'no-cache',
+                'Connection': 'keep-alive'
+            }
+        });
 
     } catch (error) {
-        console.error('Critical Proxy Failure:', error);
-        return res.status(500).json({ error: `Internal Server Error: ${error.message}` });
+        return new Response(JSON.stringify({ error: `Internal Server Error: ${error.message}` }), { status: 500 });
     }
 }
