@@ -1,56 +1,59 @@
-# 🤖 Riksan AI — Advanced Dual-Engine Core V1
+# 🤖 Riksan AI — Advanced Multi-Engine Hub & Stream Core
 
 <p align="center">
-  <a href="https://github.com/riksan762/riksan-core-v1">
-    <img src="https://img.shields.io/badge/Architecture-Dual--Engine%20Hybrid-7c3aed?style=for-the-badge&logo=cpu" alt="Architecture">
-  </a>
-  <img src="https://img.shields.io/badge/OpenAI--Compatible-Active-00a67e?style=for-the-badge&logo=openai" alt="OpenAI">
-  <img src="https://img.shields.io/badge/Anthropic--Compatible-Active-cc7b19?style=for-the-badge&logo=anthropic" alt="Anthropic">
-  <img src="https://img.shields.io/badge/Runtime-Vercel%20Edge-000000?style=for-the-badge&logo=vercel" alt="Runtime">
+  <img src="https://img.shields.io/badge/OpenAI-Compatible_API-00a67e?style=for-the-badge&logo=openai&logoColor=white" alt="OpenAI">
+  <img src="https://img.shields.io/badge/Anthropic-Claude_Network-cc7b19?style=for-the-badge&logo=anthropic&logoColor=white" alt="Anthropic">
+  <img src="https://img.shields.io/badge/DeepSeek-V3_&_Coder-0052cc?style=for-the-badge" alt="DeepSeek">
+  <img src="https://img.shields.io/badge/Qwen-Alibaba_Cloud-ff6a00?style=for-the-badge&logo=alibabacloud&logoColor=white" alt="Qwen">
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/Runtime-Vercel_Edge-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel">
+  <img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JS">
+  <img src="https://img.shields.io/badge/CSS3-Modern_Glassmorphism-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3">
+  <img src="https://img.shields.io/badge/HTML5-Viewport_Locked-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5">
 </p>
 
 ---
 
-## 🌌 Overview
+## 🌌 1. Filosofi Proyek & Arsitektur
+**Riksan AI** bukan sekadar aplikasi antarmuka chat biasa. Ini adalah sebuah **Multi-Engine Gateway Hub** berperforma tinggi yang berjalan di atas infrastruktur *serverless cloud*. 
 
-**Riksan AI** adalah platform asisten kecerdasan buatan (*Artificial Intelligence*) modular berperforma tinggi yang dibangun di atas infrastruktur serverless. Sistem ini menerapkan arsitektur **Dual-Engine Endpoint**, memungkinkan integrasi *seamless* secara simultan ke ekosistem **OpenAI-compatible gateway** dan **Anthropic-compatible payload router** melalui satu gerbang kontrol pintar.
-
-Dengan optimalisasi penuh pada penanganan *Server-Sent Events (SSE)*, Riksan AI mampu mengeksekusi instruksi kompleks, komputasi *real-time search*, hingga otomatisasi koding tanpa gejala lag ataupun *stuttering* pada antarmuka pengguna.
-
----
-
-## ✨ Fitur Utama (Enterprise Features)
-
-* **⚡ Hybrid Model Orchestration:** Pindah *engine* secara instan antara kekuatan penalaran logis tingkat tinggi (Claude 4.7 Opus / Sonnet 4.5) dan kecepatan eksekusi instan (DeepSeek Matrix / Qwen Coder).
-* **🎨 Ultra-Premium UI Glassmorphism:** Desain visual estetik dengan tema gelap futuristik, memanfaatkan teknik lapisan *blur translucent*, efek pendaran neon kontemporer (*neon glow boundaries*), dan kenyamanan scannability tingkat tinggi.
-* **📱 Smart Mobile Input Lock (`dvh` & `svh`):** Sistem mitigasi layout geser. Posisi papan ketik dikunci menggunakan unit CSS dinamis, mencegah browser HP melakukan auto-zoom atau lompatan *viewport* yang mengganggu saat keyboard virtual aktif.
-* **🧩 Safe Stream Parser (Anti-Crash Algorithm):** Algoritma pemisah data pintar yang secara otomatis menyaring *raw text chunk*, mengisolasi fragmen `data: `, serta mencegah *error* pembacaan JSON ilegal (`Unexpected token 'd'`).
-* **📦 Markdown & Syntax Highlight Render:** Parser bawaan berkecepatan tinggi yang mendukung konversi teks kaya, rendering tabel matematika, serta pewarnaan baris kode pemrograman (*monospaced code block*) otomatis.
+Sistem ini dirancang untuk menjembatani berbagai model kecerdasan buatan terkemuka di dunia (seperti DeepSeek, Claude Anthropic, dan Qwen) ke dalam satu platform tunggal yang responsif, terenkripsi, dan ramah terhadap perangkat seluler (*mobile-first*).
 
 ---
 
-## 🏗️ Diagram Arsitektur Data
+## 🧠 2. Modul Edukasi: Memahami Masalah & Solusi Koding
+
+Sebagai pengembang, membangun sistem berbasis *Artificial Intelligence Stream* mengharuskan kita paham kendala jaringan dan perilaku *browser*. Berikut adalah masalah krusial di dunia nyata yang berhasil diselesaikan oleh **Riksan AI Core**:
+
+### 🚫 Masalah 1: Error Fatal `Unexpected token 'd' is not valid JSON`
+* **Kenapa Ini Terjadi?** Ketika data dikirim dari server menggunakan protokol Server-Sent Events (SSE), data tersebut mengalir dalam bentuk bongkahan teks (*chunks*) yang diawali dengan kata `data: {"choices": ...}`. Jika kode JavaScript kamu langsung melakukan `JSON.parse()` tanpa membuang teks pembuka `data: `, browser akan membaca huruf pertama yaitu **`d`** dan langsung mengalami *crash* karena menganggapnya format JSON yang rusak.
+* **Solusi Riksan AI:** Implementasi *Safe Stream Parser* pada sisi klien yang menyaring kata `data: ` secara ketat menggunakan regex sebelum diubah menjadi objek JavaScript.
+
+### 🚫 Masalah 2: Layar HP Melompat-lompat & Auto-Zoom Saat Mengetik
+* **Kenapa Ini Terjadi?** Browser seluler (iOS Safari & Android Chrome) memiliki mekanisme proteksi bawaan: jika pengguna menyentuh kolom input yang ukuran fontnya di bawah `16px`, layar akan dipaksa melakukan *zoom-in* otomatis. Selain itu, penggunaan unit tinggi biasa (`15vh` / `100vh`) akan langsung hancur bergeser ke atas ketika papan ketik virtual HP muncul.
+* **Solusi Riksan AI:** Mengunci ukuran teks input tepat di angka `16px` dan memanfaatkan unit CSS Modern dinamis yaitu **`dvh` (Dynamic Viewport Height)** dan **`svh` (Short Viewport Height)** agar posisi form chat fleksibel dan mulus (*smooth*) mengikuti pergerakan keyboard.
+
+---
+
+## 🗺️ 3. Diagram Alur Transmisi Data (Data Flow)
+
+Sistem memproses permintaan dari antarmuka pengguna ke server penengah hingga sampai ke pusat data AI menggunakan jalur asinkronus berikut:
 
 ```text
-                     ┌───────────────────────────┐
-                     │    Riksan AI Frontend     │
-                     │  (Glassmorphism View Core)│
-                     └─────────────┬─────────────┘
-                                   │
-                         [text/event-stream]
-                                   │
-                     ┌─────────────▼─────────────┐
-                     │     Vercel Edge API       │
-                     │  (Secure Router Engine)   │
-                     └─────────────┬─────────────┘
-                                   │
-            ┌──────────────────────┴──────────────────────┐
-            ▼                                             ▼
-┌───────────────────────┐                     ┌───────────────────────┐
-│   OpenAI Endpoint     │                     │  Anthropic Endpoint   │
-│   (POST /v1/chat/...) │                     │  (POST /v1/messages)  │
-├───────────────────────┤                     ├───────────────────────┤
-│ Models:               │                     │ Models:               │
-│ - kr/deepseek-3.2     │                     │ - kr/claude-opus-4.7  │
-│ - kr/qwen3-coder-next │                     │ - kr/claude-sonnet-4.5│
-└───────────────────────┘                     └───────────────────────┘
+┌─────────────────────────┐          [Mengirim Teks Input]         ┌─────────────────────────┐
+│   User Interface (UI)   ├───────────────────────────────────────>│   Vercel Edge Gateway   │
+│  (Premium Glassmorphism)│<───────────────────────────────────────┤  (api/chat.js Backend)  │
+└─────────────────────────┘         [Membaca Stream Per Kata]      └────────────┬────────────┘
+                                                                                │
+                                                                   [Membagi Payload Rute]
+                                                                                │
+                                              ┌─────────────────────────────────┴─────────────────────────────────┐
+                                              ▼                                                                   ▼
+                               ┌──────────────────────────────┐                                    ┌──────────────────────────────┐
+                               │     OpenAI Protocol Hub      │                                    │    Anthropic Protocol Hub    │
+                               ├──────────────────────────────┤                                    ├──────────────────────────────┤
+                               │ Core Model:                  │                                    │ Core Model:                  │
+                               │ • kr/deepseek-3.2            │                                    │ • kr/claude-sonnet-4.5       │
+                               │ • kr/qwen3-coder-next        │                                    │ • kr/claude-opus-4.7         │
+                               └──────────────────────────────┘                                    └──────────────────────────────┘
