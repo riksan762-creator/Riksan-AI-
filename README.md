@@ -92,7 +92,7 @@ Kamu bisa memilih salah satu dari dua metode deployment profesional di bawah ini
 3. Cari nama repositori GitHub kamu (`riksan-ai`) pada daftar yang tersedia, lalu klik tombol **"Import"**.
 4. Di bagian **Environment Variables**, klik untuk membuka dropdown panel. Langkah ini sangat krusial agar backend kamu bisa terhubung ke API Key rahasia:
    * **Key:** `HIDEPULSA_API_KEY`
-   * **Value:** `sk-kr-zyGrey5gaxvJxV4GBFWJmRfTcN3GTgFj`
+   * **Value:** `sk-kr-your_secret_api_key_here` *(Masukkan API Key rahasia kamu di sini)*
    * Klik tombol **"Add"** setelah mengisi data.
 5. Klik tombol **"Deploy"**.
 6. Tunggu proses kompilasi selama beberapa detik. Selesai! Proyek kamu sekarang online dengan URL berdomain `.vercel.app`. Setiap kali kamu melakukan `git push` di masa depan, Vercel akan memperbarui web kamu secara otomatis.
@@ -108,7 +108,7 @@ vercel login
 vercel
 
 # 3. Daftarkan API Key rahasia kamu langsung ke server cloud Vercel
-vercel env add HIDEPULSA_API_KEY sk-kr-zyGrey5gaxvJxV4GBFWJmRfTcN3GTgFj
+vercel env add HIDEPULSA_API_KEY sk-kr-your_secret_api_key_here
 
 # 4. Lakukan trigger kompilasi final untuk merilis URL produksi live komersial
 vercel --prod
