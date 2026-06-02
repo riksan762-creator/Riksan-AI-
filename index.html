@@ -1,83 +1,101 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="id" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riksan AI — Professional AI Platform</title>
-    <link rel="stylesheet" href="css/style.css">
+    <!-- Meta tag khusus anti-zoom otomatis di browser HP -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Riksan Core - V1</title>
+    
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Markdown & HighlightJS Libraries (Penting untuk Render Code Block) -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
     <div class="app-container">
+        <!-- SIDEBAR -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="logo">
-                    <i class="fa-solid fa-cube logo-icon"></i>
-                    <span>Riksan <span class="gradient-text">AI</span></span>
+                <div class="brand">
+                    <i class="fa-solid fa-bolt icon-glow"></i>
+                    <span>Riksan Core v1</span>
                 </div>
-                <button class="close-sidebar" id="closeSidebarBtn"><i class="fa-solid fa-xmark"></i></button>
+                <button class="close-btn" id="closeSidebarBtn"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            
+
             <button class="new-chat-btn" id="newChatBtn">
-                <i class="fa-solid fa-plus"></i> New Chat
+                <i class="fa-solid fa-plus"></i> Chat Baru
             </button>
 
-            <div class="sidebar-menu">
-                <div class="menu-label">Capabilities</div>
+            <div class="menu-section">
+                <p class="menu-title">Sistem Persona</p>
                 <ul class="menu-list">
-                    <li class="active" data-prompt="You are a senior programming assistant. Help me write, review, and debug code efficiently."><i class="fa-solid fa-code"></i> Programming Assistant</li>
-                    <li data-prompt="Act as a market and business analyst expert. Provide detailed market insights, data interpretations, and strategy."><i class="fa-solid fa-chart-line"></i> Market & Business Analysis</li>
-                    <li data-prompt="You are an expert Content Writer and Research Assistant. Help me write essays, copy, and structural documentation."><i class="fa-solid fa-pen-nib"></i> Content & Research</li>
-                    <li data-prompt="Act as a high-level strategic planning and problem solving consultant. Let's break down complex challenges step-by-step."><i class="fa-solid fa-lightbulb"></i> Strategic Planning</li>
+                    <li class="active" data-prompt="You are Riksan AI, a helpful, ultra-professional AI assistant.">
+                        <i class="fa-solid fa-robot"></i> General Assistant
+                    </li>
+                    <li data-prompt="You are an expert fullstack developer. Help user write elegant, clean, efficient and bug-free code.">
+                        <i class="fa-solid fa-code"></i> Expert Developer AI
+                    </li>
                 </ul>
-            </div>
-
-            <div class="sidebar-footer">
-                <button class="theme-toggle" id="themeToggleBtn">
-                    <i class="fa-solid fa-sun"></i> <span>Light Mode</span>
-                </button>
             </div>
         </aside>
 
-        <main class="chat-area">
-            <header class="chat-header">
-                <button class="menu-toggle-btn" id="menuToggleBtn">
-                    <i class="fa-solid fa-bars"></i>
+        <!-- MAIN CHAT INTERFACE -->
+        <main class="main-content">
+            <!-- TOP BAR NAVBAR -->
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <button class="menu-btn" id="menuToggleBtn"><i class="fa-solid fa-bars"></i></button>
+                    <div class="status-indicator">
+                        <span class="pulse-dot"></span>
+                        <span class="status-text">DeepSeek Engine Active</span>
+                    </div>
+                </div>
+                <button class="theme-btn" id="themeToggleBtn">
+                    <i class="fa-solid fa-sun"></i> <span>Light Mode</span>
                 </button>
-                <div class="current-model">
-                    <i class="fa-solid fa-bolt model-icon"></i>
-                    <span>Riksan-Core-v1 (Active)</span>
-                </div>
-                <div class="header-actions">
-                    <i class="fa-solid fa-shield-halved secure-icon" title="Secure via Backend Proxy"></i>
-                </div>
             </header>
 
+            <!-- MESSAGES CONTAINER -->
             <div class="messages-container" id="messagesContainer">
                 <div class="welcome-screen" id="welcomeScreen">
-                    <h1>What can I help with today?</h1>
-                    <p>Experience precision intelligence engineered for professional workflows.</p>
+                    <h1>Ada yang bisa saya bantu, Bro?</h1>
+                    <p>Sistem kecerdasan buatan dioptimasi penuh untuk performa instan tanpa batasan.</p>
                 </div>
             </div>
 
-            <footer class="chat-input-container">
-                <form class="input-form" id="chatForm">
-                    <textarea id="userInput" rows="1" placeholder="Ask Riksan AI anything..." required></textarea>
-                    <button type="submit" id="sendBtn" title="Send Message">
-                        <i class="fa-solid fa-paper-plane"></i>
-                    </button>
+            <!-- CHAT INPUT AREA -->
+            <div class="input-area-wrapper">
+                <form class="chat-form" id="chatForm">
+                    <div class="input-box-container">
+                        <textarea 
+                            id="userInput" 
+                            rows="1" 
+                            placeholder="Ketik pesan di sini..." 
+                            rows="1"
+                            autocomplete="off"
+                        ></textarea>
+                        <button type="submit" class="send-btn">
+                            <i class="fa-solid fa-arrow-up"></i>
+                        </button>
+                    </div>
                 </form>
-                <div class="input-footer-note">
-                    Riksan AI can make mistakes. Verify important business and technical decisions.
-                </div>
-            </footer>
+                <div class="footer-credit">Engine powered by DeepSeek Stream Matrix</div>
+            </div>
         </main>
     </div>
 
-    <script src="js/api.js"></script>
+    <!-- Custom JS Client Logic -->
     <script src="js/script.js"></script>
 </body>
 </html>
