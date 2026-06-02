@@ -52,8 +52,8 @@ export default async function handler(req) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: 'kr/qwen3-coder-next',
-                messages: sanitizedPayload, // Kirim payload yang sudah disterilkan
+                model: 'kr/deepseek-3.2', // 🌟 FIX: Model sukses diganti ke DeepSeek 3.2
+                messages: sanitizedPayload, 
                 temperature: 0.7,
                 stream: true
             })
