@@ -1,49 +1,56 @@
-# 🤖 Riksan AI — Core V1
+# 🤖 Riksan AI — Advanced Dual-Engine Core V1
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge&logo=dependencychart" alt="Version">
-  <img src="https://img.shields.io/badge/Runtime-Vercel%20Edge-black?style=for-the-badge&logo=vercel" alt="Runtime">
-  <img src="https://img.shields.io/badge/Engine-DeepSeek%203.2-orange?style=for-the-badge&logo=databricks" alt="Engine">
-  <img src="https://img.shields.io/badge/UX-Ultra%20Premium-purple?style=for-the-badge" alt="UX">
+  <a href="https://github.com/riksan762/riksan-core-v1">
+    <img src="https://img.shields.io/badge/Architecture-Dual--Engine%20Hybrid-7c3aed?style=for-the-badge&logo=cpu" alt="Architecture">
+  </a>
+  <img src="https://img.shields.io/badge/OpenAI--Compatible-Active-00a67e?style=for-the-badge&logo=openai" alt="OpenAI">
+  <img src="https://img.shields.io/badge/Anthropic--Compatible-Active-cc7b19?style=for-the-badge&logo=anthropic" alt="Anthropic">
+  <img src="https://img.shields.io/badge/Runtime-Vercel%20Edge-000000?style=for-the-badge&logo=vercel" alt="Runtime">
 </p>
 
 ---
 
-## 🌌 Tentang Riksan AI
-**Riksan AI** adalah platform asisten kecerdasan buatan (*Artificial Intelligence*) generatif premium yang dioptimasi penuh untuk komputasi performa tinggi, kestabilan transmisi data, dan eksekusi respons instan. 
+## 🌌 Overview
 
-Aplikasi ini menggunakan arsitektur **Vercel Edge Runtime** untuk menangani *Server-Sent Events (SSE)* sehingga proses pengetikan teks (*streaming*) berjalan mengalir secara real-time, lancar, dan tanpa jeda *timeout*.
+**Riksan AI** adalah platform asisten kecerdasan buatan (*Artificial Intelligence*) modular berperforma tinggi yang dibangun di atas infrastruktur serverless. Sistem ini menerapkan arsitektur **Dual-Engine Endpoint**, memungkinkan integrasi *seamless* secara simultan ke ekosistem **OpenAI-compatible gateway** dan **Anthropic-compatible payload router** melalui satu gerbang kontrol pintar.
 
----
-
-## ✨ Fitur Unggulan
-
-*   **🎨 Ultra-Premium Dark Glassmorphism:** Antarmuka visual estetis, elegan, dan profesional yang dirancang menggunakan teknik modern *backdrop-filter blur* dan *glow effect*.
-*   **⚡ Real-Time Matrix Streaming:** Output teks interaktif per kata langsung dari core engine tanpa membuat browser mengalami *stuttering* atau lag.
-*   **📱 Anti-Zoom & Anti-Jumping Input Core:** Menggunakan implementasi unit CSS modern `dvh` (Dynamic Viewport Height) dan `svh` (Short Viewport Height) yang mengunci posisi papan ketik secara kokoh agar tidak melompat atau membesar otomatis saat keyboard HP aktif.
-*   **🛠️ Multi-Persona Switching Network:** Dilengkapi dengan sistem pengubah instruksi sistem (*system prompt*) secara instan dari *General Core Assistant* ke *Expert Developer Mode*.
-*   **⚙️ Flattened Context Hybrid:** Mekanisme sanitasi riwayat obrolan (*chat history*) pintar untuk mencegah kegagalan *parsing* data pada sistem penengah *upstream proxy*.
+Dengan optimalisasi penuh pada penanganan *Server-Sent Events (SSE)*, Riksan AI mampu mengeksekusi instruksi kompleks, komputasi *real-time search*, hingga otomatisasi koding tanpa gejala lag ataupun *stuttering* pada antarmuka pengguna.
 
 ---
 
-## 🛠️ Arsitektur Teknologi
+## ✨ Fitur Utama (Enterprise Features)
 
-### 1. Frontend Layer
-*   **Struktur Dasar:** HTML5 (Semantic Tags, Viewport Metadata Lock)
-*   **Desain Komponen:** CSS3 Premium (Variables, Flexbox, Dynamic Viewport, Webkit Optimization)
-*   **Logika Klien:** Vanilla JavaScript ES6+ (Fetch API Stream Reader, SSE Event Management)
-*   **Engine Renderer:** MarkedJS (Markdown Parser) & HighlightJS (Dev Monospace Code Syntax Highlighting)
-
-### 2. Backend Layer
-*   **Platform Hosting:** Vercel Serverless & Edge Architecture
-*   **Protokol Stream:** Server-Sent Events (SSE) `text/event-stream`
-*   **Konektor Kecerdasan:** DeepSeek Stream Matrix via Secure API Gateways
+* **⚡ Hybrid Model Orchestration:** Pindah *engine* secara instan antara kekuatan penalaran logis tingkat tinggi (Claude 4.7 Opus / Sonnet 4.5) dan kecepatan eksekusi instan (DeepSeek Matrix / Qwen Coder).
+* **🎨 Ultra-Premium UI Glassmorphism:** Desain visual estetik dengan tema gelap futuristik, memanfaatkan teknik lapisan *blur translucent*, efek pendaran neon kontemporer (*neon glow boundaries*), dan kenyamanan scannability tingkat tinggi.
+* **📱 Smart Mobile Input Lock (`dvh` & `svh`):** Sistem mitigasi layout geser. Posisi papan ketik dikunci menggunakan unit CSS dinamis, mencegah browser HP melakukan auto-zoom atau lompatan *viewport* yang mengganggu saat keyboard virtual aktif.
+* **🧩 Safe Stream Parser (Anti-Crash Algorithm):** Algoritma pemisah data pintar yang secara otomatis menyaring *raw text chunk*, mengisolasi fragmen `data: `, serta mencegah *error* pembacaan JSON ilegal (`Unexpected token 'd'`).
+* **📦 Markdown & Syntax Highlight Render:** Parser bawaan berkecepatan tinggi yang mendukung konversi teks kaya, rendering tabel matematika, serta pewarnaan baris kode pemrograman (*monospaced code block*) otomatis.
 
 ---
 
-## 🚀 Panduan Instalasi & Penerapan
+## 🏗️ Diagram Arsitektur Data
 
-### 1. Kloning Repositori
-```bash
-git clone [https://github.com/username/riksan-ai.git](https://github.com/username/riksan-ai.git)
-cd riksan-ai
+```text
+                     ┌───────────────────────────┐
+                     │    Riksan AI Frontend     │
+                     │  (Glassmorphism View Core)│
+                     └─────────────┬─────────────┘
+                                   │
+                         [text/event-stream]
+                                   │
+                     ┌─────────────▼─────────────┐
+                     │     Vercel Edge API       │
+                     │  (Secure Router Engine)   │
+                     └─────────────┬─────────────┘
+                                   │
+            ┌──────────────────────┴──────────────────────┐
+            ▼                                             ▼
+┌───────────────────────┐                     ┌───────────────────────┐
+│   OpenAI Endpoint     │                     │  Anthropic Endpoint   │
+│   (POST /v1/chat/...) │                     │  (POST /v1/messages)  │
+├───────────────────────┤                     ├───────────────────────┤
+│ Models:               │                     │ Models:               │
+│ - kr/deepseek-3.2     │                     │ - kr/claude-opus-4.7  │
+│ - kr/qwen3-coder-next │                     │ - kr/claude-sonnet-4.5│
+└───────────────────────┘                     └───────────────────────┘
