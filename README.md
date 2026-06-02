@@ -19,29 +19,65 @@
 
 ---
 
-## 🧠 2. Modul Edukasi: Memahami Masalah & Solusi Koding
+## 🛠️ 2. Arsitektur Kode Backend (`api/chat.js`)
 
-### 🚫 Masalah 1: Error Fatal `Unexpected token 'd' is not valid JSON`
-* **Penyebab:** Jalur data streaming (SSE) selalu diawali kata teks `data: `. Jika kodingan langsung mengeksekusi `JSON.parse()`, browser akan membaca huruf **`d`** dari kata `data` dan langsung mengalami *crash* layout.
-* **Solusi Riksan AI:** Implementasi *Safe Stream Parser* yang memotong string `data: ` menggunakan metode `.replace(/^data: /, '')` sebelum divalidasi ke format JSON objek.
+Berikut adalah struktur kode inti untuk menangani perutean multi-API (OpenAI, Anthropic, DeepSeek, Qwen) menggunakan protokol *Server-Sent Events (SSE)*:
 
-### 🚫 Masalah 2: Layar HP Melompat-lompat Saat Mengetik
-* **Penyebab:** Penggunaan unit tinggi biasa (`vh`) akan hancur bergeser ke atas ketika keyboard virtual HP aktif.
-* **Solusi Riksan AI:** Memanfaatkan unit CSS modern **`dvh` (Dynamic Viewport Height)** agar posisi form chat otomatis menyesuaikan tinggi layar secara halus (*smooth*).
+```javascript
+export default async function handler(req, res) {
+    if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
 
----
+    const { messages, engineType } = req.body; 
+    const API_KEY = process.env.HIDEPULSA_API_KEY;
 
-## 🚀 3. Panduan Instalasi & Integrasi API AI (Step-by-Step Guide)
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache, no-transform');
+    res.setHeader('Connection', 'keep-alive');
 
-Bagian ini akan mengajari kamu cara menginstalasi dan mengonfigurasi skema API dari berbagai vendor AI ke dalam satu berkas backend (`api/chat.js`).
+    let TARGET_URL = "";
+    let fetchPayload = {};
 
-### Langkah 1: Inisialisasi Struktur File Proyek
-Buat struktur direktori dasar pada repositori lokal kamu seperti ini:
-```text
-├── api/
-│   └── chat.js          # Tempat Instalasi & Integrasi API AI (Backend)
-├── css/
-│   └── style.css        # Desain Interface Premium Glassmorphism
-├── js/
-│   └── script.js        # Kontroler Stream Klien & Antarmuka UI
-└── index.html           # File Utama Aplikasi
+    if (engineType === 'anthropic') {
+        TARGET_URL = "[https://ai.hidepulsa.com/v1/messages](https://ai.hidepulsa.com/v1/messages)"; 
+        fetchPayload = {
+            model: "kr/claude-sonnet-4.5", 
+            max_tokens: 4096,
+            messages: messages, 
+            stream: true
+        };
+    } else {
+        TARGET_URL = "[https://ai.hidepulsa.com/v1/chat/completions](https://ai.hidepulsa.com/v1/chat/completions)";
+        fetchPayload = {
+            model: engineType === 'qwen' ? "kr/qwen3-coder-next" : "kr/deepseek-3.2",
+            messages: messages,
+            stream: true,
+            search: true 
+        };
+    }
+
+    try {
+        const response = await fetch(TARGET_URL, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(fetchPayload)
+        });
+
+        if (!response.ok) {
+            res.write(`data: ${JSON.stringify({ error: "Upstream server overload." })}\n\n`);
+            return res.end();
+        }
+
+        const reader = response.body;
+        for await (const chunk of reader) {
+            res.write(chunk); 
+        }
+        res.end();
+
+    } catch (err) {
+        res.write(`data: ${JSON.stringify({ error: "Gateway connection lost." })}\n\n`);
+        res.end();
+    }
+}
