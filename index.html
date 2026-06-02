@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riksan AI — Professional AI Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fa-solid fa-cube logo-icon"></i>
+                    <span>Riksan <span class="gradient-text">AI</span></span>
+                </div>
+                <button class="close-sidebar" id="closeSidebarBtn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <button class="new-chat-btn" id="newChatBtn">
+                <i class="fa-solid fa-plus"></i> New Chat
+            </button>
+
+            <div class="sidebar-menu">
+                <div class="menu-label">Capabilities</div>
+                <ul class="menu-list">
+                    <li class="active" data-prompt="You are a senior programming assistant. Help me write, review, and debug code efficiently."><i class="fa-solid fa-code"></i> Programming Assistant</li>
+                    <li data-prompt="Act as a market and business analyst expert. Provide detailed market insights, data interpretations, and strategy."><i class="fa-solid fa-chart-line"></i> Market & Business Analysis</li>
+                    <li data-prompt="You are an expert Content Writer and Research Assistant. Help me write essays, copy, and structural documentation."><i class="fa-solid fa-pen-nib"></i> Content & Research</li>
+                    <li data-prompt="Act as a high-level strategic planning and problem solving consultant. Let's break down complex challenges step-by-step."><i class="fa-solid fa-lightbulb"></i> Strategic Planning</li>
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <button class="theme-toggle" id="themeToggleBtn">
+                    <i class="fa-solid fa-sun"></i> <span>Light Mode</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="chat-area">
+            <header class="chat-header">
+                <button class="menu-toggle-btn" id="menuToggleBtn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="current-model">
+                    <i class="fa-solid fa-bolt model-icon"></i>
+                    <span>Riksan-Core-v1 (Active)</span>
+                </div>
+                <div class="header-actions">
+                    <i class="fa-solid fa-shield-halved secure-icon" title="Secure via Backend Proxy"></i>
+                </div>
+            </header>
+
+            <div class="messages-container" id="messagesContainer">
+                <div class="welcome-screen" id="welcomeScreen">
+                    <h1>What can I help with today?</h1>
+                    <p>Experience precision intelligence engineered for professional workflows.</p>
+                </div>
+            </div>
+
+            <footer class="chat-input-container">
+                <form class="input-form" id="chatForm">
+                    <textarea id="userInput" rows="1" placeholder="Ask Riksan AI anything..." required></textarea>
+                    <button type="submit" id="sendBtn" title="Send Message">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+                <div class="input-footer-note">
+                    Riksan AI can make mistakes. Verify important business and technical decisions.
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
