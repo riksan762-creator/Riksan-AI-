@@ -68,13 +68,12 @@ userInput.addEventListener('input', function() {
     this.style.height = (this.scrollHeight) + 'px';
 });
 
-// Handle form submission
+// Handle form submission dengan Real-time Streaming Reader
 chatForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const text = userInput.value.trim();
     if (!text) return;
 
-    // Remove welcome screen
     if(document.getElementById('welcomeScreen')) {
         document.getElementById('welcomeScreen').remove();
     }
@@ -83,25 +82,83 @@ chatForm.addEventListener('submit', async (e) => {
     userInput.value = '';
     userInput.style.height = 'auto';
 
-    // Build context
     if(conversationHistory.length === 0) {
         conversationHistory.push({ role: 'system', content: currentSystemPrompt });
     }
     conversationHistory.push({ role: 'user', content: text });
 
-    // Typing state
     const loadingId = appendTypingIndicator();
 
     try {
-        const data = await ApiService.sendMessage(conversationHistory);
+        const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages: conversationHistory })
+        });
+
         removeTypingIndicator(loadingId);
 
-        const aiMessage = data.choices[0].message.content;
-        appendMessage('assistant', aiMessage);
-        conversationHistory.push({ role: 'assistant', content: aiMessage });
+        if (!response.ok) {
+            throw new Error('Gagal menyambungkan koneksi data stream ke server.');
+        }
+
+        // Buat container chat kosong untuk diisi teks stream secara dinamis
+        const row = document.createElement('div');
+        row.className = `message-row ai-row`;
+        row.innerHTML = `
+            <div class="message-content">
+                <div class="avatar">R</div>
+                <div class="text-wrapper" id="active-stream-target"></div>
+            </div>
+        `;
+        messagesContainer.appendChild(row);
+        const streamTarget = document.getElementById('active-stream-target');
+
+        // Setup Stream Reader
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder('utf-8');
+        let buffer = '';
+        let aiFullMessage = '';
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            buffer += decoder.decode(value, { stream: true });
+            const lines = buffer.split('\n');
+            
+            // Simpan baris terakhir yang belum utuh ke dalam buffer
+            buffer = lines.pop(); 
+
+            for (const line of lines) {
+                const cleanedLine = line.trim();
+                if (cleanedLine.startsWith('data: ')) {
+                    const dataContent = cleanedLine.slice(6).trim();
+                    if (dataContent === '[DONE]') break;
+
+                    try {
+                        const parsedJson = JSON.parse(dataContent);
+                        const token = parsedJson.choices[0].delta?.content || '';
+                        aiFullMessage += token;
+                        
+                        // Render markdown premium secara real-time
+                        streamTarget.innerHTML = marked.parse(aiFullMessage);
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    } catch (err) {
+                        // Abaikan error parse jika chunk data belum selesai dikirim
+                    }
+                }
+            }
+        }
+
+        // Bersihkan id setelah beres streaming
+        streamTarget.removeAttribute('id');
+        conversationHistory.push({ role: 'assistant', content: aiFullMessage });
+        postProcessCodeBlocks(row);
+
     } catch (error) {
         removeTypingIndicator(loadingId);
-        appendMessage('assistant', `⚠️ **Error Communication:** ${error.message}. Silakan periksa Vercel logs.`);
+        appendMessage('assistant', `⚠️ **Error:** ${error.message}`);
     }
 });
 
@@ -111,10 +168,8 @@ function appendMessage(sender, text) {
     
     let renderedContent = text;
     if(sender === 'assistant') {
-        // Parse markdown for premium UI look
         renderedContent = marked.parse(text);
     } else {
-        // Escape HTML tags to prevent XSS injection
         renderedContent = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
     }
 
