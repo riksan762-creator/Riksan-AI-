@@ -2,87 +2,88 @@
 <html lang="id" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <!-- Meta tag khusus anti-zoom otomatis di browser HP -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Riksan Core - V1</title>
+    <!-- Mengunci viewport secara ketat demi mematikan efek auto-zoom dan pergeseran liar -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Riksan AI - Core V1</title>
     
-    <!-- Google Fonts & FontAwesome Icons -->
+    <!-- Fonts & Icons Premium -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Markdown & HighlightJS Libraries (Penting untuk Render Code Block) -->
+    <!-- Markdown & Syntax Highlighting -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
     <div class="app-container">
-        <!-- SIDEBAR -->
+        <!-- SIDEBAR MENU -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="brand">
-                    <i class="fa-solid fa-bolt icon-glow"></i>
-                    <span>Riksan Core v1</span>
+                    <i class="fa-solid fa-wand-magic-sparkles icon-glow"></i>
+                    <span>Riksan AI</span>
                 </div>
                 <button class="close-btn" id="closeSidebarBtn"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
             <button class="new-chat-btn" id="newChatBtn">
-                <i class="fa-solid fa-plus"></i> Chat Baru
+                <i class="fa-solid fa-square-plus"></i> Sesi Baru
             </button>
 
             <div class="menu-section">
                 <p class="menu-title">Sistem Persona</p>
                 <ul class="menu-list">
                     <li class="active" data-prompt="You are Riksan AI, a helpful, ultra-professional AI assistant.">
-                        <i class="fa-solid fa-robot"></i> General Assistant
+                        <i class="fa-solid fa-sparkles"></i> Riksan Core Assistant
                     </li>
                     <li data-prompt="You are an expert fullstack developer. Help user write elegant, clean, efficient and bug-free code.">
-                        <i class="fa-solid fa-code"></i> Expert Developer AI
+                        <i class="fa-solid fa-terminal"></i> Expert Developer Mode
                     </li>
                 </ul>
             </div>
         </aside>
 
-        <!-- MAIN CHAT INTERFACE -->
+        <!-- AREA UTAMA PERCAKAPAN -->
         <main class="main-content">
-            <!-- TOP BAR NAVBAR -->
+            <!-- NAVBAR ATAS -->
             <header class="top-bar">
                 <div class="top-bar-left">
-                    <button class="menu-btn" id="menuToggleBtn"><i class="fa-solid fa-bars"></i></button>
+                    <button class="menu-btn" id="menuToggleBtn"><i class="fa-solid fa-bars-staggered"></i></button>
                     <div class="status-indicator">
                         <span class="pulse-dot"></span>
-                        <span class="status-text">DeepSeek Engine Active</span>
+                        <span class="status-text">DeepSeek Matrix Active</span>
                     </div>
                 </div>
                 <button class="theme-btn" id="themeToggleBtn">
-                    <i class="fa-solid fa-sun"></i> <span>Light Mode</span>
+                    <i class="fa-solid fa-moon"></i> <span>Dark Mode</span>
                 </button>
             </header>
 
-            <!-- MESSAGES CONTAINER -->
+            <!-- CONTAINER CHAT (Scrollable) -->
             <div class="messages-container" id="messagesContainer">
                 <div class="welcome-screen" id="welcomeScreen">
-                    <h1>Ada yang bisa saya bantu, Bro?</h1>
-                    <p>Sistem kecerdasan buatan dioptimasi penuh untuk performa instan tanpa batasan.</p>
+                    <div class="welcome-logo">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h1>Riksan AI Precision</h1>
+                    <p>Sistem kecerdasan buatan terenkripsi. Dikembangkan khusus untuk komputasi performa tinggi dan eksekusi instan.</p>
                 </div>
             </div>
 
-            <!-- CHAT INPUT AREA -->
+            <!-- CHAT INPUT (Fixed Bottom dengan DVH Fix) -->
             <div class="input-area-wrapper">
                 <form class="chat-form" id="chatForm">
                     <div class="input-box-container">
                         <textarea 
                             id="userInput" 
                             rows="1" 
-                            placeholder="Ketik pesan di sini..." 
-                            rows="1"
+                            placeholder="Tanyakan sesuatu pada Riksan AI..." 
                             autocomplete="off"
                         ></textarea>
                         <button type="submit" class="send-btn">
@@ -90,12 +91,11 @@
                         </button>
                     </div>
                 </form>
-                <div class="footer-credit">Engine powered by DeepSeek Stream Matrix</div>
+                <div class="footer-credit">Engine system securely hosted on Vercel Edge Architecture</div>
             </div>
         </main>
     </div>
 
-    <!-- Custom JS Client Logic -->
     <script src="js/script.js"></script>
 </body>
 </html>
