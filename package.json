@@ -1,0 +1,17 @@
+{
+  "name": "riksan-ai",
+  "version": "1.0.0",
+  "description": "Professional AI Platform Specification",
+  "main": "api/chat.js",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "keywords": [
+    "ai",
+    "saas",
+    "openai",
+    "vercel"
+  ],
+  "author": "Riksan AI Team",
+  "license": "MIT"
+}
