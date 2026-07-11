@@ -4,67 +4,68 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Riksan AI</title>
-  
-  <!-- Pemanggilan CSS dengan Cache Busting agar UI Kapsul Premium Terbaca Sempurna -->
-  <link rel="stylesheet" href="style.css?v=1.0.2">
-  
-  <!-- CDN Lucide Icons untuk Ikon ChatGPT Style -->
+  <!-- Cache busting super kuat agar CSS lama terbuang -->
+  <link rel="stylesheet" href="style.css?v=9.9.9">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
-  <div class="app-container">
-    <!-- Top Navbar Minimalis -->
-    <header class="top-nav">
-      <button class="nav-btn" id="menuBtn">
-        <i data-lucide="menu"></i>
-      </button>
-      <div class="header-title">Riksan AI</div>
-      <button class="nav-btn new-chat-btn">
-        <i data-lucide="square-pen"></i>
-      </button>
-    </header>
+  <!-- Top Navigation -->
+  <header class="top-bar">
+    <button class="icon-btn" id="menuBtn">
+      <i data-lucide="menu"></i>
+    </button>
+    <div class="title">Riksan AI</div>
+    <button class="icon-btn new-chat-btn">
+      <i data-lucide="square-pen"></i>
+    </button>
+  </header>
 
-    <!-- Chat Workspace Area -->
-    <main class="chat-main">
-      <div class="messages-container" id="chatBox">
-        
-        <!-- Tampilan Awal Menu Pintasan Kosong ala ChatGPT Mobile -->
-        <div class="initial-screen" id="initialScreen">
-          <div class="welcome-logo">
-            <i data-lucide="cpu"></i>
-          </div>
-          <div class="shortcut-list">
-            <button class="shortcut-item" onclick="setSuggestion('Bantu pecahkan bug kode JavaScript ini')">
-              <i data-lucide="code-2"></i> <span>Pecahkan Bug Kode</span>
-            </button>
-            <button class="shortcut-item" onclick="setSuggestion('Buatkan arsitektur database yang efisien')">
-              <i data-lucide="database"></i> <span>Desain Arsitektur DB</span>
-            </button>
-            <button class="shortcut-item" onclick="setSuggestion('Optimasi logika fungsi berikut agar lebih cepat')">
-              <i data-lucide="zap"></i> <span>Optimasi Logika</span>
-            </button>
-          </div>
-        </div>
-
+  <!-- Area Chat & Workspace -->
+  <main class="chat-area" id="chatBox">
+    
+    <!-- Tampilan Awal Menu Persis ChatGPT -->
+    <div class="empty-state" id="emptyState">
+      <div class="logo-wrapper">
+        <i data-lucide="cpu" class="logo-icon"></i>
       </div>
-    </main>
-
-    <!-- Floating Input Kapsul ala ChatGPT Mobile -->
-    <footer class="input-area">
-      <form id="chatForm" class="input-pill">
-        <button type="button" class="pill-icon-btn">
-          <i data-lucide="plus"></i>
+      <div class="suggestions">
+        <button onclick="setSuggestion('Ikuti Piala Dunia')">
+          <i data-lucide="dribbble"></i> Ikuti Piala Dunia
         </button>
-        <textarea id="userInput" placeholder="Tanya Riksan AI..." rows="1"></textarea>
-        <button type="submit" id="sendBtn" class="send-btn">
+        <button onclick="setSuggestion('Buat gambar')">
+          <i data-lucide="image"></i> Buat gambar
+        </button>
+        <button onclick="setSuggestion('Cari sesuatu')">
+          <i data-lucide="globe"></i> Cari sesuatu
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Area Input Anti-Bug (Posisi di bawah alami) -->
+  <footer class="input-container">
+    <form id="chatForm" class="input-box">
+      <button type="button" class="add-btn">
+        <i data-lucide="plus"></i>
+      </button>
+      
+      <textarea id="userInput" placeholder="Tanya Riksan AI..." rows="1"></textarea>
+      
+      <div class="right-actions">
+        <!-- Ikon Mic -->
+        <button type="button" class="voice-btn">
+          <i data-lucide="mic"></i>
+        </button>
+        <!-- Tombol Send (Bakal berubah biru saat diketik) -->
+        <button type="submit" id="sendBtn" class="send-btn" disabled>
           <i data-lucide="arrow-up"></i>
         </button>
-      </form>
-    </footer>
-  </div>
+      </div>
+    </form>
+  </footer>
 
-  <!-- Pemanggilan JS dengan Cache Busting -->
-  <script src="script.js?v=1.0.2"></script>
+  <script src="script.js?v=9.9.9"></script>
 </body>
 </html>
