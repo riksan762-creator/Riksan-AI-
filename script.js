@@ -1,6 +1,5 @@
 // script.js
 document.addEventListener('DOMContentLoaded', () => {
-  // Inisialisasi ikon Lucide awal
   lucide.createIcons();
 
   const chatForm = document.getElementById('chatForm');
@@ -8,10 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const chatBox = document.getElementById('chatBox');
   const sendBtn = document.getElementById('sendBtn');
 
-  // Memory chat array untuk menjaga alur konteks logika tetap bersambung
   let conversationHistory = [];
 
-  // Auto-resize kolom textarea input saat teks memanjang kebawah
   userInput.addEventListener('input', function() {
     this.style.height = 'auto';
     this.style.height = (this.scrollHeight) + 'px';
@@ -22,20 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const query = userInput.value.trim();
     if (!query) return;
 
-    // Masukkan pesan pengguna ke UI dan memori
     appendMessage('user', query);
     conversationHistory.push({ role: 'user', content: query });
     
-    // Reset kolom input
     userInput.value = '';
     userInput.style.height = 'auto';
     setLoading(true);
 
-    // Buat wadah pesan gantung untuk respons Riksan AI
     const assistantMessageId = appendMessage('assistant', 'Riksan AI sedang menganalisis logika...');
 
     try {
-      // Menembak Vercel Serverless Function lokal (/api/chat)
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
@@ -62,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // --- Fungsi yang diperbarui dengan struktur .message-content ---
   function appendMessage(sender, text) {
     const id = 'msg-' + Date.now();
     const messageDiv = document.createElement('div');
@@ -71,12 +65,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const iconType = sender === 'user' ? 'user' : 'cpu';
     
     messageDiv.innerHTML = `
-      <div class="avatar"><i data-lucide="${iconType}"></i></div>
-      <div class="text">${escapeHtml(text)}</div>
+      <div class="message-content">
+        <div class="avatar"><i data-lucide="${iconType}"></i></div>
+        <div class="text">${escapeHtml(text)}</div>
+      </div>
     `;
     
     chatBox.appendChild(messageDiv);
-    lucide.createIcons(); // Render ulang ikon baru yang baru ditambahkan
+    lucide.createIcons(); 
     chatBox.scrollTop = chatBox.scrollHeight;
     return id;
   }
@@ -107,12 +103,13 @@ document.addEventListener('DOMContentLoaded', () => {
       .replace(/'/g, "&#039;");
   }
 
-  // Tombol aksi buat sesi percakapan baru (Clear Chat Workspace)
   document.querySelector('.new-chat-btn').addEventListener('click', () => {
     chatBox.innerHTML = `
       <div class="message assistant">
-        <div class="avatar"><i data-lucide="cpu"></i></div>
-        <div class="text">Workspace direset. Halo, saya Riksan AI. Ada arsitektur kode baru yang mau dipecahkan?</div>
+        <div class="message-content">
+          <div class="avatar"><i data-lucide="cpu"></i></div>
+          <div class="text">Workspace direset. Halo, saya Riksan AI. Ada arsitektur kode baru yang mau dipecahkan?</div>
+        </div>
       </div>
     `;
     conversationHistory = [];
