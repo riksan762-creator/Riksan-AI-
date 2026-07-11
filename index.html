@@ -2,44 +2,61 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Riksan AI - Logic Solver</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Riksan AI</title>
   <link rel="stylesheet" href="style.css">
+  <!-- CDN Lucide Icons untuk ikon premium mirip asli -->
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
   <div class="app-container">
-    <aside class="sidebar">
-      <button class="new-chat-btn">
-        <i data-lucide="plus"></i> Baru
+    <!-- Top Navbar Premium -->
+    <header class="top-nav">
+      <button class="nav-btn" id="menuBtn">
+        <i data-lucide="menu"></i>
       </button>
-      <div class="sidebar-footer">
-        <span class="version">Riksan AI v1.0 • Groq Engine</span>
-      </div>
-    </aside>
+      <div class="header-title">Riksan AI</div>
+      <button class="nav-btn new-chat-btn">
+        <i data-lucide="square-pen"></i>
+      </button>
+    </header>
 
-    <main class="chat-container">
-      <header class="chat-header">
-        <h1>Riksan <span>AI</span></h1>
-      </header>
-
-      <div class="messages-box" id="chatBox">
-        <div class="message assistant">
-          <div class="avatar"><i data-lucide="cpu"></i></div>
-          <div class="text">Halo! Saya Riksan AI. Ada logika rumit atau arsitektur kode yang perlu kita pecahkan hari ini? Mari kita buat sistem Anda jadi lebih powerful.</div>
+    <!-- Chat Workspace Area -->
+    <main class="chat-main">
+      <div class="messages-container" id="chatBox">
+        <!-- Tampilan Awal Menu Pintasan Kosong ala ChatGPT -->
+        <div class="initial-screen" id="initialScreen">
+          <div class="welcome-logo">
+            <i data-lucide="cpu"></i>
+          </div>
+          <div class="shortcut-list">
+            <button class="shortcut-item" onclick="setSuggestion('Bantu pecahkan bug kode JavaScript ini')">
+              <i data-lucide="code-2"></i> <span>Pecahkan Bug Kode</span>
+            </button>
+            <button class="shortcut-item" onclick="setSuggestion('Buatkan arsitektur database yang efisien')">
+              <i data-lucide="database"></i> <span>Desain Arsitektur DB</span>
+            </button>
+            <button class="shortcut-item" onclick="setSuggestion('Optimasi logika fungsi berikut agar lebih cepat')">
+              <i data-lucide="zap"></i> <span>Optimasi Logika</span>
+            </button>
+          </div>
         </div>
       </div>
-
-      <footer class="input-area">
-        <form id="chatForm" class="input-wrapper">
-          <textarea id="userInput" placeholder="Ketik masalah logika atau kode Anda di sini..." rows="1"></textarea>
-          <button type="submit" id="sendBtn">
-            <i data-lucide="arrow-up"></i>
-          </button>
-        </form>
-      </footer>
     </main>
+
+    <!-- Floating Input Kapsul ala ChatGPT Mobile -->
+    <footer class="input-area">
+      <form id="chatForm" class="input-pill">
+        <button type="button" class="pill-icon-btn">
+          <i data-lucide="plus"></i>
+        </button>
+        <textarea id="userInput" placeholder="Tanya Riksan AI..." rows="1"></textarea>
+        <button type="submit" id="sendBtn" class="send-btn">
+          <i data-lucide="arrow-up"></i>
+        </button>
+      </form>
+    </footer>
   </div>
 
   <script src="script.js"></script>
