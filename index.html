@@ -1,101 +1,50 @@
 <!DOCTYPE html>
-<html lang="id" data-theme="dark">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <!-- Mengunci viewport secara ketat demi mematikan efek auto-zoom dan pergeseran liar -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Riksan AI - Core V1</title>
-    
-    <!-- Fonts & Icons Premium -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Markdown & Syntax Highlighting -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riksan AI - Logic Solver</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- CDN Lucide Icons untuk icon premium -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
-    <div class="app-container">
-        <!-- SIDEBAR MENU -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <div class="brand">
-                    <i class="fa-solid fa-wand-magic-sparkles icon-glow"></i>
-                    <span>Riksan AI</span>
-                </div>
-                <button class="close-btn" id="closeSidebarBtn"><i class="fa-solid fa-xmark"></i></button>
-            </div>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <button class="new-chat-btn">
+        <i data-lucide="plus"></i> Baru
+      </button>
+      <div class="sidebar-footer">
+        <span class="version">Riksan AI v1.0 • Groq Engine</span>
+      </div>
+    </aside>
 
-            <button class="new-chat-btn" id="newChatBtn">
-                <i class="fa-solid fa-square-plus"></i> Sesi Baru
-            </button>
+    <!-- Main Chat Workspace -->
+    <main class="chat-container">
+      <header class="chat-header">
+        <h1>Riksan <span>AI</span></h1>
+      </header>
 
-            <div class="menu-section">
-                <p class="menu-title">Sistem Persona</p>
-                <ul class="menu-list">
-                    <li class="active" data-prompt="You are Riksan AI, a helpful, ultra-professional AI assistant.">
-                        <i class="fa-solid fa-sparkles"></i> Riksan Core Assistant
-                    </li>
-                    <li data-prompt="You are an expert fullstack developer. Help user write elegant, clean, efficient and bug-free code.">
-                        <i class="fa-solid fa-terminal"></i> Expert Developer Mode
-                    </li>
-                </ul>
-            </div>
-        </aside>
+      <div class="messages-box" id="chatBox">
+        <div class="message assistant">
+          <div class="avatar"><i data-lucide="cpu"></i></div>
+          <div class="text">Halo! Saya Riksan AI. Ada logika rumit atau arsitektur kode yang perlu kita pecahkan hari ini? Mari kita buat sistem Anda jadi lebih powerful.</div>
+        </div>
+      </div>
 
-        <!-- AREA UTAMA PERCAKAPAN -->
-        <main class="main-content">
-            <!-- NAVBAR ATAS -->
-            <header class="top-bar">
-                <div class="top-bar-left">
-                    <button class="menu-btn" id="menuToggleBtn"><i class="fa-solid fa-bars-staggered"></i></button>
-                    <div class="status-indicator">
-                        <span class="pulse-dot"></span>
-                        <span class="status-text">Riksan Ai Active</span>
-                    </div>
-                </div>
-                <button class="theme-btn" id="themeToggleBtn">
-                    <i class="fa-solid fa-moon"></i> <span>Dark Mode</span>
-                </button>
-            </header>
+      <footer class="input-area">
+        <form id="chatForm" class="input-wrapper">
+          <textarea id="userInput" placeholder="Ketik masalah logika atau kode Anda di sini..." rows="1"></textarea>
+          <button type="submit" id="sendBtn">
+            <i data-lucide="arrow-up"></i>
+          </button>
+        </form>
+      </footer>
+    </main>
+  </div>
 
-            <!-- CONTAINER CHAT (Scrollable) -->
-            <div class="messages-container" id="messagesContainer">
-                <div class="welcome-screen" id="welcomeScreen">
-                    <div class="welcome-logo">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    </div>
-                    <h1>Riksan AI Precision</h1>
-                    <p>Sistem kecerdasan buatan terenkripsi. Dikembangkan khusus untuk komputasi performa tinggi dan eksekusi instan.</p>
-                </div>
-            </div>
-
-            <!-- CHAT INPUT (Fixed Bottom dengan DVH Fix) -->
-            <div class="input-area-wrapper">
-                <form class="chat-form" id="chatForm">
-                    <div class="input-box-container">
-                        <textarea 
-                            id="userInput" 
-                            rows="1" 
-                            placeholder="Tanyakan sesuatu pada Riksan AI..." 
-                            autocomplete="off"
-                        ></textarea>
-                        <button type="submit" class="send-btn">
-                            <i class="fa-solid fa-arrow-up"></i>
-                        </button>
-                    </div>
-                </form>
-                <div class="footer-credit">Engine system securely hosted on Vercel Edge Architecture</div>
-            </div>
-        </main>
-    </div>
-
-    <script src="js/script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
