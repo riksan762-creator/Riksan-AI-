@@ -3,14 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Riksan AI</title>
-  <!-- Cache busting super kuat agar CSS lama terbuang -->
-  <link rel="stylesheet" href="style.css?v=9.9.9">
+  <title>Riksan AI - Pro</title>
+  <link rel="stylesheet" href="style.css?v=1.0.5">
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
-  <!-- Top Navigation -->
   <header class="top-bar">
     <button class="icon-btn" id="menuBtn">
       <i data-lucide="menu"></i>
@@ -21,44 +19,35 @@
     </button>
   </header>
 
-  <!-- Area Chat & Workspace -->
   <main class="chat-area" id="chatBox">
-    
-    <!-- Tampilan Awal Menu Persis ChatGPT -->
     <div class="empty-state" id="emptyState">
       <div class="logo-wrapper">
         <i data-lucide="cpu" class="logo-icon"></i>
       </div>
       <div class="suggestions">
-        <button onclick="setSuggestion('Ikuti Piala Dunia')">
-          <i data-lucide="dribbble"></i> Ikuti Piala Dunia
+        <button onclick="setSuggestion('Bantu cari bug di kode JavaScript ini')">
+          <i data-lucide="code-2"></i> Cari Bug Kode
         </button>
-        <button onclick="setSuggestion('Buat gambar')">
-          <i data-lucide="image"></i> Buat gambar
+        <button onclick="setSuggestion('Buatkan struktur database MySQL')">
+          <i data-lucide="database"></i> Arsitektur Database
         </button>
-        <button onclick="setSuggestion('Cari sesuatu')">
-          <i data-lucide="globe"></i> Cari sesuatu
+        <button onclick="setSuggestion('Buat fungsi Python untuk scraping')">
+          <i data-lucide="terminal"></i> Script Python
         </button>
       </div>
     </div>
-
   </main>
 
-  <!-- Area Input Anti-Bug (Posisi di bawah alami) -->
   <footer class="input-container">
     <form id="chatForm" class="input-box">
       <button type="button" class="add-btn">
         <i data-lucide="plus"></i>
       </button>
-      
       <textarea id="userInput" placeholder="Tanya Riksan AI..." rows="1"></textarea>
-      
       <div class="right-actions">
-        <!-- Ikon Mic -->
         <button type="button" class="voice-btn">
           <i data-lucide="mic"></i>
         </button>
-        <!-- Tombol Send (Bakal berubah biru saat diketik) -->
         <button type="submit" id="sendBtn" class="send-btn" disabled>
           <i data-lucide="arrow-up"></i>
         </button>
@@ -66,6 +55,6 @@
     </form>
   </footer>
 
-  <script src="script.js?v=9.9.9"></script>
+  <script src="script.js?v=1.0.5"></script>
 </body>
 </html>
