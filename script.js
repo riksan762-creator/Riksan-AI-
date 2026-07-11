@@ -5,21 +5,29 @@ document.addEventListener('DOMContentLoaded', () => {
   const userInput = document.getElementById('userInput');
   const chatBox = document.getElementById('chatBox');
   const sendBtn = document.getElementById('sendBtn');
-  const initialScreen = document.getElementById('initialScreen');
+  const emptyState = document.getElementById('emptyState');
 
   let conversationHistory = [];
 
-  // Input auto-grow tanpa merusak layout
+  // Logic UI Input (Auto-Resize & Tombol Biru aktif)
   userInput.addEventListener('input', function() {
     this.style.height = 'auto';
     this.style.height = (this.scrollHeight) + 'px';
+
+    if (this.value.trim().length > 0) {
+      sendBtn.disabled = false;
+      sendBtn.classList.add('active'); // Ubah jadi biru terang
+    } else {
+      sendBtn.disabled = true;
+      sendBtn.classList.remove('active'); // Kembalikan ke pudar
+    }
   });
 
-  // Fungsi pintasan suggestions
+  // Pintasan Suggestion (Klik menu langsung terketik)
   window.setSuggestion = function(text) {
     userInput.value = text;
+    userInput.dispatchEvent(new Event('input')); // Panggil event agar tinggi menyesuaikan
     userInput.focus();
-    userInput.dispatchEvent(new Event('input'));
   };
 
   chatForm.addEventListener('submit', async (e) => {
@@ -27,19 +35,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const query = userInput.value.trim();
     if (!query) return;
 
-    // Sembunyikan layar suggestion saat chat dimulai
-    if (initialScreen) {
-      initialScreen.remove();
-    }
+    // Hapus tampilan shortcut logo saat chat dimulai
+    if (emptyState) emptyState.style.display = 'none';
 
     appendMessage('user', query);
     conversationHistory.push({ role: 'user', content: query });
-    
+
+    // Reset input
     userInput.value = '';
     userInput.style.height = 'auto';
-    setLoading(true);
+    userInput.dispatchEvent(new Event('input')); // Matikan lagi tombol send
+    
+    // Set animasi loading
+    sendBtn.innerHTML = `<i data-lucide="loader-2" class="animate-spin"></i>`;
+    lucide.createIcons();
 
-    const assistantMessageId = appendMessage('assistant', 'Memikirkan logika...');
+    const assistantId = appendMessage('assistant', 'Memproses...');
 
     try {
       const response = await fetch('/api/chat', {
@@ -52,63 +63,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (response.ok) {
         const reply = data.choices[0].message.content;
-        updateMessageText(assistantMessageId, reply);
+        updateMessageText(assistantId, reply);
         conversationHistory.push({ role: 'assistant', content: reply });
       } else {
-        updateMessageText(assistantMessageId, `Error: ${data.error || 'Terjadi gangguan sistem.'}`);
+        updateMessageText(assistantId, `Error: ${data.error || 'Terjadi kendala server.'}`);
       }
     } catch (err) {
-      updateMessageText(assistantMessageId, 'Gagal terhubung ke server.');
-      console.error(err);
+      updateMessageText(assistantId, 'Gagal terhubung. Pastikan API menyala.');
     } finally {
-      setLoading(false);
+      // Kembalikan ikon panah ke atas
+      sendBtn.innerHTML = `<i data-lucide="arrow-up"></i>`;
+      lucide.createIcons();
       chatBox.scrollTop = chatBox.scrollHeight;
     }
   });
 
   function appendMessage(sender, text) {
     const id = 'msg-' + Date.now();
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${sender}`;
-    messageDiv.id = id;
+    const div = document.createElement('div');
+    div.className = `message ${sender}`;
+    div.id = id;
 
-    const iconType = sender === 'user' ? 'user' : 'cpu';
+    if (sender === 'user') {
+      div.innerHTML = `<div class="msg-bubble">${escapeHtml(text)}</div>`;
+    } else {
+      div.innerHTML = `
+        <div class="msg-avatar">
+          <i data-lucide="cpu" style="width: 20px; height: 20px; color: var(--text-main);"></i>
+        </div>
+        <div class="msg-bubble">${escapeHtml(text)}</div>
+      `;
+    }
     
-    messageDiv.innerHTML = `
-      <div class="msg-avatar"><i data-lucide="${iconType}"></i></div>
-      <div class="msg-text">${escapeHtml(text)}</div>
-    `;
-    
-    chatBox.appendChild(messageDiv);
+    chatBox.appendChild(div);
     lucide.createIcons();
     chatBox.scrollTop = chatBox.scrollHeight;
     return id;
   }
 
-  function updateMessageText(id, newText) {
-    const msgEl = document.getElementById(id);
-    if (msgEl) {
-      msgEl.querySelector('.msg-text').innerText = newText;
-    }
-  }
-
-  function setLoading(loading) {
-    sendBtn.disabled = loading;
-    if (loading) {
-      sendBtn.innerHTML = `<i data-lucide="loader-2" class="animate-spin"></i>`;
-    } else {
-      sendBtn.innerHTML = `<i data-lucide="arrow-up"></i>`;
-    }
-    lucide.createIcons();
+  function updateMessageText(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.querySelector('.msg-bubble').innerText = text;
   }
 
   function escapeHtml(text) {
-    return text
-      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
   }
 
-  // Tombol reset chat baru di top bar
+  // Tombol Chat Baru
   document.querySelector('.new-chat-btn').addEventListener('click', () => {
     window.location.reload();
   });
