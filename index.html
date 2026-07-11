@@ -4,14 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Riksan AI</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- CDN Lucide Icons untuk ikon premium mirip asli -->
+  
+  <!-- Pemanggilan CSS dengan Cache Busting agar UI Kapsul Premium Terbaca Sempurna -->
+  <link rel="stylesheet" href="style.css?v=1.0.2">
+  
+  <!-- CDN Lucide Icons untuk Ikon ChatGPT Style -->
   <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
 
   <div class="app-container">
-    <!-- Top Navbar Premium -->
+    <!-- Top Navbar Minimalis -->
     <header class="top-nav">
       <button class="nav-btn" id="menuBtn">
         <i data-lucide="menu"></i>
@@ -25,7 +28,8 @@
     <!-- Chat Workspace Area -->
     <main class="chat-main">
       <div class="messages-container" id="chatBox">
-        <!-- Tampilan Awal Menu Pintasan Kosong ala ChatGPT -->
+        
+        <!-- Tampilan Awal Menu Pintasan Kosong ala ChatGPT Mobile -->
         <div class="initial-screen" id="initialScreen">
           <div class="welcome-logo">
             <i data-lucide="cpu"></i>
@@ -42,6 +46,7 @@
             </button>
           </div>
         </div>
+
       </div>
     </main>
 
@@ -59,6 +64,7 @@
     </footer>
   </div>
 
-  <script src="script.js"></script>
+  <!-- Pemanggilan JS dengan Cache Busting -->
+  <script src="script.js?v=1.0.2"></script>
 </body>
 </html>
