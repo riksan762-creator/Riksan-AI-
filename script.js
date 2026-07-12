@@ -28,14 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
     userInput.focus();
   };
 
-  // --- FUNGSI FORMAT MARKDOWN (Mengubah Teks Jadi Kotak Kode) ---
+  // --- FUNGSI FORMAT MARKDOWN ---
   function formatMarkdown(text) {
-    // 1. Amankan tag HTML agar tidak error
     let formatted = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-    // 2. Deteksi Code Block (Kode panjang yang dibungkus ```)
+    // Deteksi Code Block dan tambahkan class "language-x" untuk Highlight.js
     formatted = formatted.replace(/```(\w*)\n([\s\S]*?)```/g, function(match, lang, code) {
-      const language = lang ? lang : 'code';
+      const language = lang ? lang : 'plaintext';
       const codeId = 'code-' + Math.random().toString(36).substr(2, 9);
       
       return `
@@ -46,42 +45,37 @@ document.addEventListener('DOMContentLoaded', () => {
               <i data-lucide="copy" style="width: 14px; height: 14px;"></i> Salin
             </button>
           </div>
-          <pre><code id="${codeId}">${code}</code></pre>
+          <pre><code id="${codeId}" class="language-${language}">${code}</code></pre>
         </div>
       `;
     });
 
-    // 3. Deteksi Inline Code (Kode pendek pakai `)
     formatted = formatted.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
-
-    // 4. Deteksi Teks Tebal (Bold)
     formatted = formatted.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
 
     return formatted;
   }
 
-  // --- FUNGSI COPY CODE (Untuk Tombol Salin) ---
+  // --- FUNGSI COPY CODE ---
   window.copyToClipboard = function(btnElement, codeId) {
     const codeElement = document.getElementById(codeId);
     if (!codeElement) return;
 
-    // Ambil isi kode murni tanpa tag HTML
+    // Ambil isi kode murni, abaikan tag <span> dari Highlight.js
     const textToCopy = codeElement.innerText;
 
     navigator.clipboard.writeText(textToCopy).then(() => {
-      // Ubah tombol jadi "Disalin" + ikon Check
       const originalHTML = btnElement.innerHTML;
       btnElement.innerHTML = `<i data-lucide="check" style="width: 14px; height: 14px; color: #10a37f;"></i> Disalin`;
       lucide.createIcons();
       
-      // Kembalikan ke ikon semula setelah 2 detik
       setTimeout(() => {
         btnElement.innerHTML = originalHTML;
         lucide.createIcons();
       }, 2000);
     }).catch(err => {
       console.error('Gagal menyalin:', err);
-      alert('Gagal menyalin kode ke clipboard.');
+      alert('Gagal menyalin kode.');
     });
   };
 
@@ -92,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (emptyState) emptyState.style.display = 'none';
 
-    // Cetak pesan user ke layar
     appendMessage('user', query);
     conversationHistory.push({ role: 'user', content: query });
 
@@ -103,7 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
     sendBtn.innerHTML = `<i data-lucide="loader-2" class="animate-spin"></i>`;
     lucide.createIcons();
 
-    // Siapkan balon chat balasan AI
     const assistantId = appendMessage('assistant', 'Menganalisis...');
 
     try {
@@ -138,10 +130,8 @@ document.addEventListener('DOMContentLoaded', () => {
     div.id = id;
 
     if (sender === 'user') {
-      // User text dirender biasa
       div.innerHTML = `<div class="msg-bubble">${formatMarkdown(text)}</div>`;
     } else {
-      // AI text dirender dengan kotak kode (jika ada)
       div.innerHTML = `
         <div class="msg-avatar">
           <i data-lucide="cpu" style="width: 20px; height: 20px; color: var(--text-main);"></i>
@@ -156,12 +146,17 @@ document.addEventListener('DOMContentLoaded', () => {
     return id;
   }
 
-  // Update text function untuk mendukung format HTML baru (kotak kode)
+  // --- FUNGSI UPDATE TEXT DAN MEWARNAI KODE ---
   function updateMessageText(id, text) {
     const el = document.getElementById(id);
     if (el) {
       el.querySelector('.msg-bubble').innerHTML = formatMarkdown(text);
-      lucide.createIcons(); // Render ikon "copy" di dalam kode
+      lucide.createIcons();
+      
+      // TRIGGER HIGHLIGHT.JS UNTUK MEWARNAI KODE
+      el.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightElement(block);
+      });
     }
   }
 
