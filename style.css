@@ -1,335 +1,269 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-
 :root {
-  --bg-main: #0f1115; /* Hitam elegan */
-  --bg-input: rgba(30, 32, 38, 0.6);
+  --bg-dark: #121212;
+  --bg-panel: #212121;
+  --bg-input: #2f2f2f;
   --text-main: #ffffff;
-  --text-muted: #9ca3af;
-  --accent: #2563eb; /* Biru profesional */
-  --border-color: rgba(255, 255, 255, 0.08);
+  --text-muted: #aaaaaa;
+  --blue-send: #3b82f6; 
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background-color: var(--bg-main);
+  background-color: var(--bg-dark);
   color: var(--text-main);
+  height: 100dvh;
   display: flex;
   flex-direction: column;
-  height: 100vh;
   overflow: hidden;
 }
 
-/* =========================================
-   HEADER GLASSMORPHISM
-========================================== */
+/* Top Bar & Chat Area */
 .top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
-  background: rgba(15, 17, 21, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border-color);
-  z-index: 50;
-  position: sticky;
-  top: 0;
+  padding: 12px 16px;
+  flex-shrink: 0;
 }
-
-.title {
-  font-weight: 600;
-  font-size: 18px;
-  letter-spacing: 0.5px;
-}
-
 .icon-btn {
-  background: transparent;
+  background: none;
   border: none;
   color: var(--text-main);
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 8px;
-  transition: 0.3s ease;
-}
-.icon-btn:hover { background: rgba(255, 255, 255, 0.1); }
-
-/* =========================================
-   AREA CHAT & KONTEN UTAMA
-========================================== */
-.chat-area {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  scroll-behavior: smooth;
-}
-
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  text-align: center;
-}
-.logo-icon {
-  width: 56px;
-  height: 56px;
-  margin-bottom: 20px;
-  color: var(--text-muted);
-}
-
-.suggestions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-  max-width: 450px;
-}
-.suggestions button {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
-  padding: 14px 16px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  transition: 0.3s ease;
-  font-size: 14px;
-}
-.suggestions button:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--accent);
-}
-
-/* =========================================
-   GELEMBUNG PESAN (BUBBLE CHAT)
-========================================== */
-.message {
-  display: flex;
-  gap: 12px;
-  max-width: 800px;
-  margin: 0 auto;
-  width: 100%;
-}
-.message.user { justify-content: flex-end; }
-
-.msg-avatar {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 8px;
-  border-radius: 50%;
-  height: max-content;
-  border: 1px solid var(--border-color);
-}
-
-.msg-bubble {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 14px 18px;
-  border-radius: 18px;
-  font-size: 15px;
-  line-height: 1.6;
-  max-width: 85%;
-  word-wrap: break-word;
-  border: 1px solid var(--border-color);
-}
-.message.user .msg-bubble {
-  background: var(--accent);
-  border-color: var(--accent);
-  border-bottom-right-radius: 4px;
-}
-.message.assistant .msg-bubble { border-bottom-left-radius: 4px; }
-
-/* =========================================
-   INPUT AREA - GLASSMORPHISM PREMIUM
-========================================== */
-.input-container {
-  padding: 20px;
-  background: linear-gradient(180deg, rgba(15,17,21,0) 0%, rgba(15,17,21,1) 40%);
-}
-.input-wrapper {
-  background: var(--bg-input);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border-color);
-  border-radius: 24px;
-  max-width: 800px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-}
-
-.input-box {
-  display: flex;
-  align-items: flex-end;
-  padding: 10px 16px;
-  gap: 12px;
-}
-
-textarea {
-  flex: 1;
-  background: transparent;
-  border: none;
-  color: var(--text-main);
-  font-family: inherit;
-  font-size: 15px;
-  resize: none;
-  max-height: 150px;
-  padding: 10px 0;
-  outline: none;
-  line-height: 1.5;
-}
-textarea::placeholder { color: var(--text-muted); }
-
-/* TOMBOL INPUT */
-.add-btn, .voice-btn, .send-btn {
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: 0.3s ease;
+  cursor: pointer;
 }
-.add-btn:hover, .voice-btn:hover {
-  background: rgba(255,255,255,0.1);
-  color: var(--text-main);
-}
-.send-btn.active {
-  background: var(--accent);
-  color: white;
-}
-.right-actions { display: flex; gap: 4px; }
+.title { font-weight: 600; font-size: 16px; }
 
-/* =========================================
-   MENU DROPDOWN, PREVIEW GAMBAR, & ANIMASI MIC
-========================================== */
-.right-header-actions {
+.chat-area {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  scroll-behavior: smooth;
+}
+
+/* Empty State */
+.empty-state {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
+.logo-wrapper {
+  width: 54px;
+  height: 54px;
+  background: var(--text-main);
+  color: var(--bg-dark);
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 4px;
-  position: relative;
+  justify-content: center;
+  margin-bottom: 32px;
 }
-
-.dropdown-menu {
-  position: absolute;
-  top: 50px;
-  right: 16px;
-  background: rgba(30, 32, 38, 0.95);
-  backdrop-filter: blur(16px);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 8px;
-  display: none;
+.logo-wrapper i { width: 32px; height: 32px; }
+.suggestions {
+  width: 100%;
+  display: flex;
   flex-direction: column;
-  min-width: 180px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-  z-index: 100;
+  gap: 16px;
 }
-.dropdown-menu.show { display: flex; }
-.dropdown-menu button {
+.suggestions button {
   background: transparent;
   border: none;
   color: var(--text-main);
-  padding: 12px;
-  text-align: left;
-  border-radius: 8px;
-  cursor: pointer;
+  font-size: 16px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 14px;
+  gap: 16px;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-weight: 500;
 }
-.dropdown-menu button:hover { background: rgba(255,255,255,0.08); }
-.dropdown-menu button i { width: 18px; height: 18px; color: var(--text-muted); }
-
-.image-preview-container {
-  display: none;
-  position: relative;
-  width: 64px;
-  height: 64px;
-  margin: 12px 16px 0 16px;
-}
-.image-preview-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-}
-.remove-img-btn {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background: #ef4444;
-  color: white;
-  border: none;
-  border-radius: 50%;
+.suggestions button i {
+  color: var(--text-muted);
   width: 22px;
   height: 22px;
+}
+
+/* Input Area */
+.input-container {
+  flex-shrink: 0;
+  padding: 8px 16px 20px 16px;
+  background: var(--bg-dark);
+}
+.input-box {
+  background: var(--bg-input);
+  border-radius: 26px;
+  display: flex;
+  align-items: flex-end;
+  padding: 8px 12px;
+  max-width: 768px;
+  margin: 0 auto;
+  gap: 8px;
+}
+.add-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+  flex-shrink: 0;
+}
+.input-box textarea {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  font-size: 16px;
+  resize: none;
+  outline: none;
+  padding: 8px 0;
+  max-height: 120px;
+  line-height: 1.4;
+}
+.input-box textarea::placeholder { color: var(--text-muted); }
+.right-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-bottom: 4px;
+}
+.voice-btn, .send-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.send-btn.active {
+  background-color: var(--blue-send);
+  color: #fff;
 }
 
-.msg-image { max-width: 100%; border-radius: 12px; margin-bottom: 10px; }
-.ai-generated-img { max-width: 100%; border-radius: 12px; margin-top: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-
-.voice-btn.recording {
-  color: #ef4444;
-  animation: pulse-red 1.5s infinite;
+/* Messages */
+.message {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  max-width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
-@keyframes pulse-red {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-  70% { transform: scale(1.1); box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+.message.user { flex-direction: row-reverse; }
+.msg-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  flex-shrink: 0;
+  border: 1px solid var(--text-muted);
+}
+.message.user .msg-avatar { display: none; }
+.msg-bubble {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-main);
+  flex: 1;
+  word-break: break-word;
+  white-space: pre-wrap; 
+}
+.message.user .msg-bubble {
+  background: var(--bg-input);
+  padding: 12px 18px;
+  border-radius: 20px;
+  max-width: 85%;
+  flex: none;
 }
 
 /* =========================================
-   MARKDOWN & CODE BLOCKS (UNTUK CODING)
+   SYNTAX HIGHLIGHTING & CODE BLOCKS
 ========================================== */
 .code-wrapper {
-  background: #000000;
-  border-radius: 10px;
-  margin: 12px 0;
+  background-color: #282c34; /* Warna dasar Atom One Dark */
+  border: 1px solid #3e4451;
+  border-radius: 8px;
+  margin: 14px 0;
   overflow: hidden;
-  border: 1px solid var(--border-color);
 }
 .code-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 16px;
-  background: rgba(255,255,255,0.05);
+  background-color: #21252b;
+  padding: 8px 14px;
+  border-bottom: 1px solid #3e4451;
+}
+.code-lang {
   font-size: 12px;
-  color: var(--text-muted);
-  border-bottom: 1px solid var(--border-color);
+  color: #abb2bf;
+  text-transform: lowercase;
+  font-family: monospace;
 }
 .copy-btn {
   background: transparent;
   border: none;
-  color: var(--text-muted);
-  cursor: pointer;
+  color: #abb2bf;
   display: flex;
   align-items: center;
   gap: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: color 0.2s;
 }
-.copy-btn:hover { color: var(--text-main); }
-pre { padding: 16px; overflow-x: auto; font-size: 13px; margin: 0; }
-.inline-code { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: monospace; color: #93c5fd; }
+.copy-btn:hover { color: #ffffff; }
+
+/* Mengatur Padding Pre agar sesuai dengan Highlight.js */
+.code-wrapper pre {
+  margin: 0;
+  padding: 0; 
+  overflow-x: auto;
+}
+.code-wrapper code {
+  font-family: "Fira Code", "Courier New", Courier, monospace;
+  font-size: 14px;
+  padding: 16px !important; /* Memaksa padding di dalam area kode */
+  display: block;
+}
+.inline-code {
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 14px;
+  color: #e06c75;
+}
+
+.animate-spin { animation: spin 1s linear infinite; }
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
