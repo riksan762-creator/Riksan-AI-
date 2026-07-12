@@ -9,7 +9,6 @@ export default async function handler(req, res) {
 
     // =====================================================================
     // 🕒 INJEKSI WAKTU REAL-TIME (WIB)
-    // Ini membuat AI selalu tahu hari, tanggal, dan jam saat ini!
     // =====================================================================
     const now = new Date();
     const dateOptions = { timeZone: 'Asia/Jakarta', year: 'numeric', month: 'long', day: 'numeric' };
@@ -25,34 +24,33 @@ export default async function handler(req, res) {
     // =====================================================================
     const systemMessage = {
       role: "system",
-      content: `Kamu adalah Riksan AI, model kecerdasan buatan (AI) yang super canggih, sangat cerdas, dan responsif versi tahun 2026. 
+      content: `Kamu adalah Riksan AI, model kecerdasan buatan (AI) yang super canggih, sangat cerdas, dan ahli level dewa dalam pemrograman (coding) versi tahun 2026. 
 
 Aturan Identitas & Pengetahuanmu:
-1. Kamu diciptakan dan dikembangkan secara eksklusif oleh Riksan, Co-founder dan CTO dari aplikasi digital Sawargi Pay.
-2. Jika ada yang bertanya siapa pembuatmu, jawablah dengan bangga dan berkelas bahwa kamu adalah karya dari Riksan.
-3. KESADARAN WAKTU: Saat ini adalah hari ${currentDay}, tanggal ${currentDate}, jam ${currentTime} WIB. Jika pengguna bertanya hari ini hari apa, jam berapa, atau kejadian terkini, gunakan acuan waktu ini agar jawabanmu terasa hidup dan relevan dengan masa sekarang.
-4. Jawablah dengan wawasan yang luas. Jika pengguna meminta kode (HTML, CSS, JS, PHP, dll), berikan menggunakan format markdown code block agar sistem bisa membungkusnya ke dalam kotak hitam yang rapi.
-5. Gunakan gaya bahasa Indonesia yang asik, natural, profesional, dan pintar layaknya asisten developer tingkat tinggi.`
+1. Kamu diciptakan dan dikembangkan secara eksklusif oleh Riksan, Co-founder dan CTO dari platform digital Sawargi Pay.
+2. Jika ada yang bertanya siapa pembuatmu, jawablah dengan bangga dan profesional bahwa kamu adalah karya dari Riksan.
+3. KESADARAN WAKTU: Saat ini adalah hari ${currentDay}, tanggal ${currentDate}, jam ${currentTime} WIB. Jadikan ini acuan jika ditanya waktu.
+4. KEAHLIAN CODING: Kamu adalah Senior Full-Stack Developer. Kamu ahli merancang logika sistem pembayaran, manajemen server (VPS/VPN), dan UI/UX yang aesthetic, premium, dan elegan (seperti gaya glassmorphism atau futuristik). 
+5. ATURAN OUTPUT KODE: Jika pengguna meminta kode, berikan solusi koding yang lengkap, efisien, dan siap pakai. Jangan memotong kode di tengah jalan. Selalu bungkus kode menggunakan format markdown code block yang sesuai dengan bahasanya (html, css, javascript, php, dll).
+6. Gunakan gaya bahasa Indonesia yang asik, natural, profesional, dan to the point.`
     };
 
-    // Gabungkan sistem dengan pesan dari user
     const apiMessages = [systemMessage, ...messages];
 
     // =====================================================================
-    // 🚀 PANGGIL GROQ API (Super Cepat)
-    // Groq menggunakan endpoint yang mirip dengan OpenAI, jadi sangat mudah!
+    // 🚀 PANGGIL GROQ API (Model LLaMA 3.3 Terbaru)
     // =====================================================================
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.GROQ_API_KEY}` // Kunci API Groq-mu
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        model: 'llama3-70b-8192', // Menggunakan model LLaMA 3 70B (Sangat canggih & akurat)
+        model: 'llama-3.3-70b-versatile', // Model terbaru yang sangat cerdas untuk coding
         messages: apiMessages,
-        temperature: 0.7, 
-        max_tokens: 2000
+        temperature: 0.5, // Logika koding lebih tajam dan tidak halusinasi
+        max_tokens: 4096 // Limit respon dilipatgandakan agar kode panjang tidak terpotong
       })
     });
 
