@@ -3,9 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Riksan AI - Ultra Pro</title>
-  <link rel="stylesheet" href="style.css?v=3.0.0">
+  <title>Riksan AI - Pro Colored</title>
+  
+  <!-- CSS Utama -->
+  <link rel="stylesheet" href="style.css?v=2.0.0">
+  
+  <!-- CDN Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- CDN Highlight.js untuk Mewarnai Kode (Tema Atom One Dark) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 </head>
@@ -16,20 +22,9 @@
       <i data-lucide="menu"></i>
     </button>
     <div class="title">Riksan AI</div>
-    <div class="right-header-actions">
-      <button class="icon-btn new-chat-btn">
-        <i data-lucide="square-pen"></i>
-      </button>
-      <button class="icon-btn" id="ellipsisBtn">
-        <i data-lucide="more-vertical"></i>
-      </button>
-    </div>
-    
-    <!-- Dropdown Menu Glassmorphism -->
-    <div class="dropdown-menu" id="dropdownMenu">
-      <button onclick="window.location.reload()"><i data-lucide="trash-2"></i> Bersihkan Chat</button>
-      <button onclick="alert('Riksan AI v3.0 - Sistem sudah optimal untuk VPN/VPS & Dev Mode.')"><i data-lucide="info"></i> Info Sistem</button>
-    </div>
+    <button class="icon-btn new-chat-btn">
+      <i data-lucide="square-pen"></i>
+    </button>
   </header>
 
   <main class="chat-area" id="chatBox">
@@ -38,52 +33,36 @@
         <i data-lucide="cpu" class="logo-icon"></i>
       </div>
       <div class="suggestions">
-        <button onclick="setSuggestion('Buatkan gambar serigala neon bergaya cyberpunk')">
-          <i data-lucide="image"></i> Buat Gambar Keren
+        <button onclick="setSuggestion('Buatkan form login dengan HTML dan CSS')">
+          <i data-lucide="code-2"></i> Form Login HTML CSS
         </button>
-        <button onclick="setSuggestion('Bantu analisis error log dari server VPS ini')">
-          <i data-lucide="server"></i> Analisis Server VPS
+        <button onclick="setSuggestion('Buatkan fungsi JavaScript untuk kalkulator')">
+          <i data-lucide="terminal"></i> Fungsi Kalkulator JS
         </button>
-        <button onclick="setSuggestion('Buatkan desain UI/UX Payment Gateway dengan CSS')">
-          <i data-lucide="layout"></i> Desain UI Payment
+        <button onclick="setSuggestion('Buatkan struktur tabel user di MySQL')">
+          <i data-lucide="database"></i> Struktur Tabel MySQL
         </button>
       </div>
     </div>
   </main>
 
-  <!-- Input Area Canggih -->
   <footer class="input-container">
-    <div class="input-wrapper">
-      
-      <!-- Preview Gambar Sebelum Dikirim -->
-      <div class="image-preview-container" id="imagePreviewContainer">
-        <img id="previewImg" src="" alt="Preview">
-        <button type="button" class="remove-img-btn" id="removeImgBtn">
-          <i data-lucide="x"></i>
+    <form id="chatForm" class="input-box">
+      <button type="button" class="add-btn">
+        <i data-lucide="plus"></i>
+      </button>
+      <textarea id="userInput" placeholder="Tanya Riksan AI..." rows="1"></textarea>
+      <div class="right-actions">
+        <button type="button" class="voice-btn">
+          <i data-lucide="mic"></i>
+        </button>
+        <button type="submit" id="sendBtn" class="send-btn" disabled>
+          <i data-lucide="arrow-up"></i>
         </button>
       </div>
-
-      <form id="chatForm" class="input-box">
-        <input type="file" id="fileInput" accept="image/*" capture="environment" style="display: none;">
-        
-        <button type="button" class="add-btn" id="attachBtn">
-          <i data-lucide="plus"></i>
-        </button>
-        
-        <textarea id="userInput" placeholder="Tanya atau suruh buat gambar..." rows="1"></textarea>
-        
-        <div class="right-actions">
-          <button type="button" class="voice-btn" id="voiceBtn">
-            <i data-lucide="mic"></i>
-          </button>
-          <button type="submit" id="sendBtn" class="send-btn" disabled>
-            <i data-lucide="arrow-up"></i>
-          </button>
-        </div>
-      </form>
-    </div>
+    </form>
   </footer>
 
-  <script src="script.js?v=3.0.0"></script>
+  <script src="script.js?v=2.0.0"></script>
 </body>
 </html>
